@@ -1,15 +1,1 @@
-
-Cardio,running,15,31-02-3035
-Strength,back,3,12,30,02-02-2025
-Cardio,cycling,20,31-02-2025
-Strength,biceps,4,10,40,31-03-2025
-Cardio,2132,20,22-12-2025
-Cardio,running,20,12-03-2025
-Cardio,asdfsa,20,12-01-2025
-Cardio,cycling,20,30-01-2025
-Strength,Biceps,2,3,100,20-12-2024
-Cardio,cycling,100000000,20-12-2024
-Strength,Triceps,333333,12123123,2132412421,10-02-2025
-Cardio,swimming,20,20-02-2025
-Cardio,cycling,20,12-12-2024
-Strength,Legs,12,12,30,12-12-2024
+Cardio,Running,20,01-02-2025
