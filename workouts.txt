@@ -1,1 +1,4 @@
 Cardio,Running,20,01-02-2025
+Cardio,Running,120,08-12-2024
+Strength,Brain,6,20,40,24-05-2024
+Strength,legs,2,20,20,01-12-2024

@@ -24,8 +24,9 @@ public class Main {
         }
     }
 
+    // checks if the Date String's content is in valid format for LocalDate
     public static boolean isValidDate(String dateStr, String pattern) {
-        if (dateStr == null || dateStr.isBlank()) {
+        if (dateStr == null || dateStr.isBlank()) {// date cannot be null or empty
             return false;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
@@ -44,10 +45,12 @@ public class Main {
             String input = sc.nextLine().trim();
             try {
                 duration = Integer.parseInt(input);
+                // because humans should not workout more than 5 hours at a time :D
+                // lets limit the duration input to maximum 300 mins
                 if (duration > 0 && duration <= 300) {
                     return duration;
                 } else {
-                    System.out.println("Duration must be appropriate number.");
+                    System.out.println("Invalid input. Duration must be appropriate number.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.");
@@ -63,10 +66,10 @@ public class Main {
             String input = sc.nextLine().trim();
             try {
                 sets = Integer.parseInt(input);
-                if (sets > 0 && sets <= 50) {
+                if (sets > 0 && sets <= 50) {// user is allowed to input only the realstic amount of sets
                     return sets;
                 } else {
-                    System.out.println("Number of sets must be appropriate number.");
+                    System.out.println("Invalid input. Number of sets must be appropriate number.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.");
@@ -82,10 +85,10 @@ public class Main {
             String input = sc.nextLine().trim();
             try {
                 reps = Integer.parseInt(input);
-                if (reps > 0 && reps <= 100) {
+                if (reps > 0 && reps <= 100) {// put a limitation on number of reps
                     return reps;
                 } else {
-                    System.out.println("Number of reps must be appropriate number.");
+                    System.out.println("Invalid input. Number of reps must be appropriate number.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.");
@@ -94,7 +97,7 @@ public class Main {
         }
     }
 
-    public static void printMenu() {
+    public static void printMenu() {// a main menu of choices for our system
         System.out.println("\n--- Fitness Tracker Menu ---");
         System.out.println("1. Add Cardio Workout");
         System.out.println("2. Add Strength Workout");
@@ -107,13 +110,16 @@ public class Main {
             System.out.print("Enter date (DD-MM-YYYY): ");
             String input = sc.nextLine().trim();
             if (isValidDate(input, "dd-MM-yyyy")) {
+                // usually LocalDate.parse() method below might throw DateTimeParseException according to the format
+                // but our isvalidDate() method made sure that is not the case.
                 LocalDate enteredDate = LocalDate.parse(input, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                LocalDate today = LocalDate.now();
-                long daysBetween = ChronoUnit.DAYS.between(enteredDate, today);
+                LocalDate today = LocalDate.now();// get current date
+                long daysBetween = ChronoUnit.DAYS.between(enteredDate, today);// days between today's date and the date
+                                                                               // user entered
 
-                if (enteredDate.isAfter(today)) {
+                if (enteredDate.isAfter(today)) {// do not allow logging workouts for future
                     System.out.println("You can't log future workouts.");
-                } else if (daysBetween > 365) {
+                } else if (daysBetween > 365) {// do not allow logging workouts that are more than one year old either!
                     System.out.println("That date is too far in the past. Please enter a date within the past year.");
                 } else {
                     return input;
@@ -126,7 +132,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);// initialize Scanner, later will be called by several methods
-        WorkoutManager.loadFromFile();// read last saved workouts from the file (if there is any) and add them to the workout list
+        WorkoutManager.loadFromFile();// read last saved workouts from the file (if there is any) and add them to the
+                                      // workout list
 
         while (true) {
             printMenu();// display choice menu
@@ -135,7 +142,9 @@ public class Main {
             int choice = -1;
             boolean ValidChoice = false;
 
-            while (!ValidChoice) {//until the user gets it right, keep asking
+            // note that our system only offers 4 choices in menu
+            // until the user gets it right, keep asking
+            while (!ValidChoice) {
                 System.out.print("Choose an option: ");
                 try {
                     choice = Integer.parseInt(sc.nextLine());
@@ -152,13 +161,13 @@ public class Main {
             }
 
             // so now we have a valid value of choice
-            // use switch-case for each menu choice
             switch (choice) {
                 case 1:// user wants to log a new 'CARDIO' workout
                     try {
                         // we have implemented each getBlahBlah methods carefully to not accept wrong
                         // data type or even the correct data in wrong format
-                        String type = getWorkoutType(sc, "Enter cardio activity type (e.g., Running): ");// what kind of activity
+                        String type = getWorkoutType(sc, "Enter cardio activity type (e.g., Running): ");// what kind of
+                                                                                                         // activity
                         int duration = getDuration(sc);// how long they did the workout for(in minutes)
                         String date = getDate(sc);// on what date they worked out
                         WorkoutManager.addWorkout(new CardioWorkout(type, duration, date));
@@ -177,7 +186,14 @@ public class Main {
                         int reps = getReps(sc);// number of reps per set
                         int duration = getDuration(sc);// duration (in minutes)
                         String date = getDate(sc);
-                        WorkoutManager.addWorkout(new StrengthWorkout(workoutType, sets, reps, duration, date));//add workout to list then write to file
+                        WorkoutManager.addWorkout(new StrengthWorkout(workoutType, sets, reps, duration, date));// add
+                                                                                                                // workout
+                                                                                                                // to
+                                                                                                                // list
+                                                                                                                // then
+                                                                                                                // write
+                                                                                                                // to
+                                                                                                                // file
                     } catch (Exception e) {
                         System.out.println("Invalid input. Workout not added.");
                     }
@@ -188,12 +204,13 @@ public class Main {
 
                     while (true) {
                         System.out.print("Press 'C' to continue or 'E' to exit: ");
+                        // whether user enters small or big letter, transform it into captial letter
                         String input = sc.nextLine().trim().toUpperCase();
                         if (input.equals("C")) {
                             break; // Go back to main menu
                         } else if (input.equals("E")) {
                             System.out.println("Exiting... Stay strong!");
-                            return;
+                            return;// end program
                         } else {
                             System.out.println("Invalid option. Please enter 'C' or 'E'.");
                         }
@@ -201,9 +218,9 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Exiting... Stay strong!");
-                    return;
-                default:
-                    System.out.println("Invalid option.");
+                    return;// end of program
+                default:// this default case wont be seen since we handled
+                    System.out.println("Unused 'Invalid option'.");
             }
         }
     }
