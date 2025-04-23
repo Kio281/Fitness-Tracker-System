@@ -23,7 +23,6 @@ public class Main {
             }
         }
     }
-
     // checks if the Date String's content is in valid format for LocalDate
     public static boolean isValidDate(String dateStr, String pattern) {
         if (dateStr == null || dateStr.isBlank()) {// date cannot be null or empty
@@ -39,7 +38,7 @@ public class Main {
     }
 
     public static int getDuration(Scanner sc) {
-        int duration = -1;
+        int duration;
         while (true) {
             System.out.print("Enter duration (minutes): ");
             String input = sc.nextLine().trim();
@@ -60,7 +59,7 @@ public class Main {
     }
 
     public static int getSets(Scanner sc) {
-        int sets = -1;
+        int sets;
         while (true) {
             System.out.print("Enter number of sets: ");
             String input = sc.nextLine().trim();
@@ -79,7 +78,7 @@ public class Main {
     }
 
     public static int getReps(Scanner sc) {
-        int reps = -1;
+        int reps;
         while (true) {
             System.out.print("Enter number of reps per set: ");
             String input = sc.nextLine().trim();
@@ -110,7 +109,8 @@ public class Main {
             System.out.print("Enter date (DD-MM-YYYY): ");
             String input = sc.nextLine().trim();
             if (isValidDate(input, "dd-MM-yyyy")) {
-                // usually LocalDate.parse() method below might throw DateTimeParseException according to the format
+                // usually LocalDate.parse() method below might throw DateTimeParseException
+                // according to the format
                 // but our isvalidDate() method made sure that is not the case.
                 LocalDate enteredDate = LocalDate.parse(input, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                 LocalDate today = LocalDate.now();// get current date
@@ -139,7 +139,7 @@ public class Main {
             printMenu();// display choice menu
 
             // set up initial conditions for looping
-            int choice = -1;
+            int choice =-1;
             boolean ValidChoice = false;
 
             // note that our system only offers 4 choices in menu
@@ -166,7 +166,7 @@ public class Main {
                     try {
                         // we have implemented each getBlahBlah methods carefully to not accept wrong
                         // data type or even the correct data in wrong format
-                        String type = getWorkoutType(sc, "Enter cardio activity type (e.g., Running): ");// what kind of
+                        String type = getWorkoutType(sc,"Enter cardio activity type (e.g., Running): ");// what kind of
                                                                                                          // activity
                         int duration = getDuration(sc);// how long they did the workout for(in minutes)
                         String date = getDate(sc);// on what date they worked out
@@ -194,6 +194,7 @@ public class Main {
                                                                                                                 // write
                                                                                                                 // to
                                                                                                                 // file
+                        System.out.println("Strength workout added!");
                     } catch (Exception e) {
                         System.out.println("Invalid input. Workout not added.");
                     }
@@ -206,7 +207,7 @@ public class Main {
                         System.out.print("Press 'C' to continue or 'E' to exit: ");
                         // whether user enters small or big letter, transform it into captial letter
                         String input = sc.nextLine().trim().toUpperCase();
-                        if (input.equals("C")) {
+                        if (input.equals("C")) { 
                             break; // Go back to main menu
                         } else if (input.equals("E")) {
                             System.out.println("Exiting... Stay strong!");
